@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+require 'rubygems'
+require 'date'
+require 'active_resource'
+
+if ARGV[0]
+  API_KEY = ARGV[0]
+else
+  puts "You must supply your api key."
+  exit
+end
+
+SITE = "https://#{API_KEY}@api.slicehost.com"
+
+class Slice < ActiveResource::Base
+  self.site = SITE
+end
+
+s = Slice.find(35179)
+
+now = DateTime.now
+
+puts "#{now.strftime '%Y-%m-%d %H:%M:%S'}\nBandwidth in: #{s.bw_in}GB\nBandwidth out: #{s.bw_out}GB\nTotal: #{s.bw_in+s.bw_out}GB\n"
+
+
